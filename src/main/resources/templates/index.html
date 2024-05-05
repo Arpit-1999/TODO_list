@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="base :: head(~{::title})">
+  <title>MySQL Todo Sample</title>
+</head>
+
+<body th:replace="base :: body(~{::h1}, ~{::section})">
+  <h1 style="padding-left: 500px;">ToDo List</h1>
+
+  <section>
+    
+    <!-- Item Input Form -->
+    <div class="todoForm">
+      <form class="form-horizontal" role="form" th:action="@{/add}" th:object="${newitem}" method="POST">
+        <div class="form-group">
+          <label for="inputItemName" class="col-sm-2">Activity</label>
+          <div class="col-sm-10">
+            <input type="text" th:field="*{name}" class="form-control" id="inputItemName" placeholder="Enter job" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputItemCategory" class="col-sm-2">Classifying</label>
+          <div class="col-sm-10">
+            <input type="text" th:field="*{category}" class="form-control" id="inputItemCategory"
+              placeholder="Category" />
+          </div>
+        </div>
+
+        <button style="background-color:yellow; /* Green */
+        border: none;
+        
+        color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 10px; "type="submit" class="btn btn-primary">Charge</button>
+
+      </form>
+    </div>
+    <br/>
+    <div class="todoList">
+      <form class="form-horizontal" role="form" th:action="@{/update}" th:object="${items}" method="POST">
+        <table class="table table-bordered table-striped" id="todoItems">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Activity</th>
+              <th>Complete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="item,i : *{todoList}" th:class="${item.complete}? active : warning">
+              <input type="hidden" th:field="*{todoList[__${i.index}__].id}" />
+              <td th:text="${item.name}">Item_name</td><input type="hidden"
+                th:field="*{todoList[__${i.index}__].name}" />
+              <td th:text="${item.category}">item_category</td><input type="hidden"
+                th:field="*{todoList[__${i.index}__].category}" />
+              <td><input type="checkbox" th:checked="${item.complete} == true"
+                  th:field="*{todoList[__${i.index}__].complete}" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Update Button -->
+        
+        <button style="background-color:yellow; /* Green */
+        border: none;
+        color: black;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 10px;"
+        type="submit" class="btn btn-primary">Modify</button>
+      </form>
+    </div>
+
+    <hr />
+
+  </section>
+
+</body>
+
+</html>
